@@ -7,6 +7,8 @@
 
 # Levantamento de Requisitos
 
+> Este documento contém a especificação dos requisitos não funcionais para o sistema de estimativas trivariadas de projetos - PrecisePath.
+
 ### RNF-001 (ISO 25010: Eficiência de Desempenho)
 
 A aplicação deve ser otimizada para garantir tempos de carregamento rápidos e uma resposta ágil às interações do usuário, mesmo sob condições de carga elevada, garantindo uma experiência de usuário fluida e eficiente.

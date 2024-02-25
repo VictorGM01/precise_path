@@ -7,6 +7,8 @@
 
 # Levantamento de Requisitos
 
+> Este documento contém a especificação dos requisitos funcionais para o sistema de estimativas trivariadas de projetos - PrecisePath.
+
 ### RF-001
 
 **Login com GitHub**
