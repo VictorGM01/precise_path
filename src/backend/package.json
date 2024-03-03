@@ -1,0 +1,32 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "back-end da aplicação Precise Path",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VictorGM01/precise_path.git"
+  },
+  "keywords": [
+    "precise",
+    "path",
+    "estimativa",
+    "trivariada",
+    "precise-path"
+  ],
+  "author": "Victor Gabriel Marques",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/VictorGM01/precise_path/issues"
+  },
+  "homepage": "https://github.com/VictorGM01/precise_path#readme",
+  "dependencies": {
+    "fastify": "^4.26.1"
+  }
+}
