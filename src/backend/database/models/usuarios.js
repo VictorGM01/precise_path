@@ -5,7 +5,11 @@ const {
 module.exports = (sequelize, DataTypes) => {
   class usuarios extends Model {
     static associate(models) {
-      // define association here
+      usuarios.belongsToMany(models.permissoes, {
+        through: 'permissoes_usuarios',
+        foreignKey: 'id_usuario',
+        as: 'permissoes'
+      });
     }
   }
   usuarios.init({
