@@ -16,6 +16,7 @@ module.exports = class UsuarioController {
         cargo: Joi.string(),
         celular: Joi.string(),
         ativo: Joi.boolean().default(true),
+        permissoes: Joi.array().items(Joi.string().valid("ADMIN", "USER")).required(),
       });
 
       const { value, error } = schema.validate(usuario);
