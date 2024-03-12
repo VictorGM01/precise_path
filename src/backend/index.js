@@ -1,18 +1,18 @@
-const Fastify = require("fastify");
-const database = require("./database/models");
+const fastify = require("fastify")({ logger: true });
+const routes = require("./routes/routes.js");
 
-const fastify = Fastify({
-  logger: true,
+fastify.addHook('onRequest', (request, reply, done) => {
+  if (request.method === 'POST' && !request.headers['content-type']) {
+    request.headers['content-type'] = 'application/json';
+  }
+  done();
 });
 
+fastify.register(routes);
+
 // testa a conexão com o banco
-fastify.get("/", async function (request, reply) {
-  try {
-    await database.sequelize.authenticate();
-    reply.send({ status: "ok" });
-  } catch (error) {
-    reply.send({ status: "error" });
-  }
+fastify.get("/", async (request, reply) => {
+  return { message: "API Precise Path. Seja bem-vindo!" };
 });
 
 fastify.listen({ port: 3000, host: "0.0.0.0" }, function (err, address) {
