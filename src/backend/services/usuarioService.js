@@ -1,7 +1,12 @@
 const database = require("../database/models");
+const bcrypt = require('bcrypt');
+
 
 module.exports = class UsuarioService {
   async create(usuario) {
+
+    usuario.senha = await bcrypt.hash(usuario.senha, 10);
+
     const usuarioCriado = await database.usuarios.findOrCreate({
       where: {
         email: usuario.email,
@@ -22,8 +27,6 @@ module.exports = class UsuarioService {
           nome: usuario.permissoes,
         },
       });
-
-      console.log(permissoes);
 
       await usuarioCriado[0].setPermissoes(permissoes);
     }
