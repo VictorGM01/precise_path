@@ -35,4 +35,14 @@ module.exports = class UsuarioController {
       reply.status(500).send({ message: error.message });
     }
   }
+
+  static async getAll(request, reply) {
+    try {
+      const usuarios = await usuarioService.getAll();
+
+      reply.status(200).send(usuarios);
+    } catch (error) {
+      reply.status(500).send({ message: error.message });
+    }
+  }
 };

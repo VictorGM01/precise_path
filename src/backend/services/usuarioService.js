@@ -33,4 +33,16 @@ module.exports = class UsuarioService {
 
     return usuarioCriado;
   }
+
+  async getAll() {
+    return await database.usuarios.findAll({
+      include: {
+        model: database.permissoes,
+        as: "permissoes",
+        through: { attributes: [] },
+      },
+      attributes: { exclude: ["senha", "createdAt", "updatedAt"] },
+      order: [["id", "ASC"]],
+    });
+  }
 };
