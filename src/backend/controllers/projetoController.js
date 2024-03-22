@@ -121,4 +121,20 @@ module.exports = class ProjetoController {
       reply.status(500).send({ message: error.message });
     }
   }
+
+  static async delete(request, reply) {
+    try {
+      const id_projeto = request.params.id;
+      const id_usuario = request.user.id;
+
+      const projetoDeletado = await projetoService.delete({
+        id_projeto,
+        id_usuario,
+      });
+
+      reply.send(projetoDeletado);
+    } catch (error) {
+      reply.status(500).send({ message: error.message });
+    }
+  }
 };

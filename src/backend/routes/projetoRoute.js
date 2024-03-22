@@ -6,4 +6,5 @@ module.exports = async function (fastify, options) {
   fastify.get("/all", ProjetoController.getAll);
   fastify.get("/:id", ProjetoController.getById);
   fastify.put("/:id", ProjetoController.update);
+  fastify.delete("/:id", ProjetoController.delete);
 };

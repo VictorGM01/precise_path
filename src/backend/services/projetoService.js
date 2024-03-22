@@ -122,4 +122,35 @@ module.exports = class ProjetoService {
 
     return projetoAtualizado;
   }
+
+  async delete(dto) {
+    const usuario = await database.usuarios.findByPk(dto.id_usuario, {
+      include: {
+        model: database.permissoes,
+        as: "permissoes",
+        through: { attributes: [] },
+        attributes: ["nome"],
+      },
+      attributes: ["id"],
+    });
+
+    let projetoAtual;
+
+    if (usuario.permissoes.some((permissao) => permissao.nome === "ADMIN")) {
+      projetoAtual = await database.projetos.findByPk(dto.id_projeto);
+    } else {
+      projetoAtual = await database.projetos.findOne({
+        where: {
+          id: dto.id_projeto,
+          id_usuario: dto.id_usuario,
+        },
+      });
+    }
+
+    if (!projetoAtual) {
+      return;
+    }
+
+    await projetoAtual.destroy();
+  }
 };
