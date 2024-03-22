@@ -35,4 +35,26 @@ module.exports = class ProjetoService {
 
     return projetos;
   }
+
+  async getAll(id_administrador) {
+    const user = await database.usuarios.findByPk(id_administrador, {
+      include: {
+        model: database.permissoes,
+        as: "permissoes",
+        through: { attributes: [] },
+        attributes: ["nome"],
+      },
+      attributes: ["id"],
+    });
+
+    if (!user.permissoes.some((permissao) => permissao.nome === "ADMIN")) {
+      throw new Error(
+        "Permissão negada!"
+      );
+    }
+
+    const projetos = await database.projetos.findAll();
+
+    return projetos;
+  }
 };

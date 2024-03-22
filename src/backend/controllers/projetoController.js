@@ -49,4 +49,19 @@ module.exports = class ProjetoController {
       reply.status(500).send({ message: error.message });
     }
   }
+
+  static async getAll(request, reply) {
+    try {
+      const id_administrador = request.user.id;
+
+      const projetos = await projetoService.getAll(id_administrador);
+      return projetos;
+    } catch (error) {
+      if (error.message === "Permissão negada!") {
+        reply.status(403).send({ message: error.message });
+      } else {
+        reply.status(500).send({ message: error.message });
+      }
+    }
+  }
 };
