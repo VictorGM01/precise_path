@@ -1,5 +1,5 @@
 const fastify = require("fastify")({ logger: true });
-const routes = require("./routes/routes.js");
+const { routes, routesAuth } = require("./routes/routes.js");
 const fjwt = require("@fastify/jwt");
 
 fastify.addHook("preHandler", (request, reply, done) => {
@@ -18,7 +18,18 @@ fastify.register(fjwt, {
   secret: process.env.JWT_SECRET,
 });
 
+fastify.decorate("authenticate", async function (request, reply) {
+  try {
+    await request.jwtVerify();
+  } catch (error) {
+    reply.status(401).send({ message: "Token inválido" });
+  }
+});
+
+
 fastify.register(routes);
+
+fastify.register(routesAuth);
 
 fastify.get("/", async (request, reply) => {
   return { message: "API Precise Path. Seja bem-vindo!" };
