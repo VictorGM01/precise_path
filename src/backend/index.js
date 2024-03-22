@@ -26,7 +26,6 @@ fastify.decorate("authenticate", async function (request, reply) {
   }
 });
 
-
 fastify.register(routes);
 
 fastify.register(routesAuth);
