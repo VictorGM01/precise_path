@@ -48,13 +48,45 @@ module.exports = class ProjetoService {
     });
 
     if (!user.permissoes.some((permissao) => permissao.nome === "ADMIN")) {
-      throw new Error(
-        "Permissão negada!"
-      );
+      throw new Error("Permissão negada!");
     }
 
     const projetos = await database.projetos.findAll();
 
     return projetos;
+  }
+
+  async getById(dto) {
+    const projeto = await database.projetos.findByPk(dto.id_projeto, {
+      where: {
+        id_usuario: dto.id_usuario,
+      },
+    });
+
+    if (!projeto) {
+      const permissaoAdm = await database.permissoes.findOne({
+        where: {
+          nome: "ADMIN",
+        },
+        include: [
+          {
+            model: database.usuarios,
+            as: "usuarios",
+            through: { attributes: [] },
+            where: {
+              id: dto.id_usuario,
+            },
+          },
+        ],
+      });
+
+      const projetoAdm = await database.projetos.findByPk(dto.id_projeto);
+
+      if (!projetoAdm || !permissaoAdm) {
+        throw new Error("Projeto não encontrado!");
+      }
+    }
+
+    return projeto;
   }
 };

@@ -64,4 +64,21 @@ module.exports = class ProjetoController {
       }
     }
   }
+
+  static async getById(request, reply) {
+    try {
+      const id_projeto = request.params.id;
+      const id_usuario = request.user.id;
+
+      const projeto = await projetoService.getById({ id_projeto, id_usuario });
+
+      reply.send(projeto);
+    } catch (error) {
+      if (error.message === "Projeto não encontrado!") {
+        reply.status(404).send({ message: error.message });
+      } else {
+        reply.status(500).send({ message: error.message });
+      }
+    }
+  }
 };
