@@ -81,4 +81,44 @@ module.exports = class ProjetoController {
       }
     }
   }
+
+  static async update(request, reply) {
+    try {
+      const id_projeto = request.params.id;
+      const id_usuario = request.user.id;
+      const projeto = request.body;
+
+      const schema = Joi.object({
+        nome: Joi.string(),
+        data_inicio: Joi.date(),
+        data_fim: Joi.date(),
+        ativo: Joi.boolean(),
+        status: Joi.string()
+          .case("upper")
+          .valid("EM ANDAMENTO", "CONCLUÍDO", "CANCELADO"),
+      });
+
+      const { value, error } = schema.validate(projeto);
+
+      if (error) {
+        reply.status(400).send({ message: error.message });
+        return;
+      }
+
+      const projetoAtualizado = await projetoService.update({
+        id_projeto,
+        id_usuario,
+        projeto: value,
+      });
+
+      if (!projetoAtualizado) {
+        reply.status(404).send({ message: "Projeto não encontrado!" });
+        return;
+      }
+
+      reply.send(projetoAtualizado);
+    } catch (error) {
+      reply.status(500).send({ message: error.message });
+    }
+  }
 };
