@@ -27,7 +27,12 @@ module.exports = class AuthController {
         return;
       }
 
-      reply.status(201).send(loginInfo);
+      const token = request.jwt.sign({
+        id: loginInfo.id,
+        nome: loginInfo.nome,
+      });
+
+      reply.status(201).send({ token });
     } catch (error) {
       reply.status(500).send({ message: error.message });
     }
