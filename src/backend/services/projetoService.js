@@ -25,4 +25,14 @@ module.exports = class ProjetoService {
 
     return projetoCriado;
   }
+
+  async getAllByUser(id_usuario) {
+    const projetos = await database.projetos.findAll({
+      where: {
+        id_usuario,
+      },
+    });
+
+    return projetos;
+  }
 };

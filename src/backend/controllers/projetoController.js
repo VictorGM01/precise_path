@@ -37,4 +37,16 @@ module.exports = class ProjetoController {
       reply.status(500).send({ message: error.message });
     }
   }
+
+  static async getAllByUser(request, reply) {
+    try {
+      const id_usuario = request.user.id;
+
+      const projetos = await projetoService.getAllByUser(id_usuario);
+
+      reply.send(projetos);
+    } catch (error) {
+      reply.status(500).send({ message: error.message });
+    }
+  }
 };
